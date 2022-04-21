@@ -4,12 +4,20 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android P/app/src/main/res/drawable/border_edit_text.xml" value="0.2415" />
+        <entry key="..\:/Android P/app/src/main/res/drawable/ic_baseline_chat_24.xml" value="0.2415" />
+        <entry key="..\:/Android P/app/src/main/res/drawable/ic_baseline_insert_emoticon_24.xml" value="0.2415" />
+        <entry key="..\:/Android P/app/src/main/res/drawable/ic_baseline_person_add_alt_1_24.xml" value="0.2415" />
         <entry key="..\:/Android P/app/src/main/res/drawable/onboarding_indicator_inactive.xml" value="0.2415" />
         <entry key="..\:/Android P/app/src/main/res/layout/activity_intro.xml" value="0.265625" />
         <entry key="..\:/Android P/app/src/main/res/layout/activity_login.xml" value="0.265625" />
         <entry key="..\:/Android P/app/src/main/res/layout/activity_main.xml" value="0.265625" />
         <entry key="..\:/Android P/app/src/main/res/layout/activity_register.xml" value="0.265625" />
         <entry key="..\:/Android P/app/src/main/res/layout/activity_splash.xml" value="0.12447916666666667" />
+        <entry key="..\:/Android P/app/src/main/res/layout/fragment_friend.xml" value="0.12447916666666667" />
+        <entry key="..\:/Android P/app/src/main/res/layout/fragment_friend_request.xml" value="0.12447916666666667" />
+        <entry key="..\:/Android P/app/src/main/res/layout/fragment_message.xml" value="0.11041666666666666" />
+        <entry key="..\:/Android P/app/src/main/res/layout/layout_user.xml" value="0.265625" />
+        <entry key="..\:/Android P/app/src/main/res/menu/main_menu.xml" value="0.4" />
         <entry key="..\:/Android P/app/src/main/res/mipmap-xxhdpi/logo_app.xml" value="0.2415" />
       </map>
     </option>
