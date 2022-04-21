@@ -6,11 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
@@ -45,6 +48,8 @@ public class RegisterActivity extends AppCompatActivity {
     private String encodedImage;
     String userID;
     FirebaseDatabase fDB;
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +70,8 @@ public class RegisterActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 pickImg.launch(intent);
+
+
             }
         });
         //đã có tài khoản
@@ -119,6 +126,10 @@ public class RegisterActivity extends AppCompatActivity {
                                     user.put("username", username);
                                     user.put("email", email);
                                     user.put("image", image);
+                                    sharedPreferences = getSharedPreferences("imgUser", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("img_data", encodedImage);
+                                    editor.apply();
                                     databaseReference.child("users").child(userID)
                                             .setValue(user)
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -127,8 +138,8 @@ public class RegisterActivity extends AppCompatActivity {
                                                     if(aVoid.isSuccessful()){
                                                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                                         intent.putExtra("email", email);
-
                                                         setResult(Activity.RESULT_OK, intent);
+
                                                         finish();
                                                     }
 
