@@ -1,11 +1,17 @@
 package com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.auth;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,22 +28,28 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
     TextView txtAlready;
-    RoundedImageView roundedImageView;
+    RoundedImageView imgProfile;
     EditText editMail, editUser, editPass,editPass1;
     MaterialButton btnSignUp;
     FirebaseAuth fAuth;
+    private String encodedImage;
     String userID;
     FirebaseDatabase fDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        imgProfile = findViewById(R.id.imgProfile);
         editMail = findViewById(R.id.editEmail);
         editUser = findViewById(R.id.editUser);
         editPass = findViewById(R.id.editPass);
@@ -45,6 +57,16 @@ public class RegisterActivity extends AppCompatActivity {
         btnSignUp =  findViewById(R.id.btnRegister);
         fAuth = FirebaseAuth.getInstance();
         fDB = FirebaseDatabase.getInstance();
+
+        //thêm avatar
+        imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                pickImg.launch(intent);
+            }
+        });
         //đã có tài khoản
         txtAlready = findViewById(R.id.txtAlready);
         txtAlready.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = editMail.getText().toString();
                 String password = editPass.getText().toString();
                 String username = editUser.getText().toString();
-
+                String image = encodedImage;
                 if (!isValid(email)) {
                     editMail.setError("Sai phương thức nhập Email");
                     return;
@@ -96,7 +118,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     Map<String, Object> user = new HashMap<>();
                                     user.put("username", username);
                                     user.put("email", email);
-
+                                    user.put("image", image);
                                     databaseReference.child("users").child(userID)
                                             .setValue(user)
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -131,6 +153,8 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
+    //auth
     public static boolean isValid(String email)
     {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
@@ -142,4 +166,34 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         return pat.matcher(email).matches();
     }
+
+    //Avatar
+    private String encodeImage(Bitmap bitmap){
+        int previewWidth =150;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.getEncoder().encodeToString(bytes);
+    }
+
+    private ActivityResultLauncher<Intent> pickImg = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+              if (result.getResultCode() == RESULT_OK){
+                  if(result.getData()!= null){
+                      Uri imgUri = result.getData().getData();
+                      try {
+                          InputStream inputStream = getContentResolver().openInputStream(imgUri);
+                          Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                          imgProfile.setImageBitmap(bitmap);
+                          encodedImage =encodeImage(bitmap);
+                      } catch (FileNotFoundException e) {
+                          e.printStackTrace();
+                      }
+                  }
+              }
+            }
+            );
 }
