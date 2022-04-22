@@ -126,10 +126,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     user.put("username", username);
                                     user.put("email", email);
                                     user.put("image", image);
-                                    sharedPreferences = getSharedPreferences("imgUser", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("img_data", encodedImage);
-                                    editor.apply();
+
                                     databaseReference.child("users").child(userID)
                                             .setValue(user)
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -139,7 +136,10 @@ public class RegisterActivity extends AppCompatActivity {
                                                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                                         intent.putExtra("email", email);
                                                         setResult(Activity.RESULT_OK, intent);
-
+                                                        sharedPreferences = getSharedPreferences("imgUser", Context.MODE_PRIVATE);
+                                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                        editor.putString("img_data", encodedImage);
+                                                        editor.apply();
                                                         finish();
                                                     }
 

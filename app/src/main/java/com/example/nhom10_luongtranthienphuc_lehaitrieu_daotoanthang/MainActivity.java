@@ -83,8 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
     void displayUserProfile(){
         sharedPreferences = getSharedPreferences("imgUser", Context.MODE_PRIVATE);
-        String previouslyEncodedImage = sharedPreferences.getString("img_data", "");
-
+        String previouslyEncodedImage = sharedPreferences.getString("img_data",null);
             byte[] bytes = Base64.getDecoder().decode(previouslyEncodedImage);
             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0, bytes.length);
             imgProfile.setImageBitmap(bitmap);
