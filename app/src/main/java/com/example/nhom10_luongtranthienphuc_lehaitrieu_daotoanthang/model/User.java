@@ -11,10 +11,6 @@ public class User implements Serializable {
     public String password;
     public String image;
 
-    public String getUserID() {
-        return userID;
-    }
-
     public String userID;
     public String lastMessage;
 
@@ -30,6 +26,9 @@ public class User implements Serializable {
 
     public User(){
 
+    }
+    public String getUserID() {
+        return userID;
     }
 
     //sign up
@@ -72,9 +71,6 @@ public class User implements Serializable {
         this.image = image;
     }
 
-    public String getUserID(String key) {
-        return userID;
-    }
 
     public void setUserID(String userID) {
         this.userID = userID;

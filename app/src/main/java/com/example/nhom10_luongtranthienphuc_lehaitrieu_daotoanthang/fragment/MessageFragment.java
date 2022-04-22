@@ -97,7 +97,7 @@ public class MessageFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot :snapshot.getChildren()){
                     User users = dataSnapshot.getValue(User.class);
-                    users.getUserID(dataSnapshot.getKey());
+                    users.setUserID(dataSnapshot.getKey());
                     userLists.add(users);
                 }
                 messageAdapter.notifyDataSetChanged();
