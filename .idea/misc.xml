@@ -4,11 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android P/app/src/main/res/drawable/border_edit_text.xml" value="0.2415" />
+        <entry key="..\:/Android P/app/src/main/res/drawable/custom_input.xml" value="0.27" />
         <entry key="..\:/Android P/app/src/main/res/drawable/ic_baseline_chat_24.xml" value="0.2415" />
         <entry key="..\:/Android P/app/src/main/res/drawable/ic_baseline_insert_emoticon_24.xml" value="0.2415" />
         <entry key="..\:/Android P/app/src/main/res/drawable/ic_baseline_person_add_alt_1_24.xml" value="0.2415" />
+        <entry key="..\:/Android P/app/src/main/res/drawable/ic_send_24.xml" value="0.27" />
         <entry key="..\:/Android P/app/src/main/res/drawable/onboarding_indicator_inactive.xml" value="0.2415" />
-        <entry key="..\:/Android P/app/src/main/res/layout/activity_chat_detail.xml" value="0.265625" />
+        <entry key="..\:/Android P/app/src/main/res/layout/activity_chat_detail.xml" value="0.264" />
         <entry key="..\:/Android P/app/src/main/res/layout/activity_intro.xml" value="0.265625" />
         <entry key="..\:/Android P/app/src/main/res/layout/activity_login.xml" value="0.265625" />
         <entry key="..\:/Android P/app/src/main/res/layout/activity_main.xml" value="0.265625" />

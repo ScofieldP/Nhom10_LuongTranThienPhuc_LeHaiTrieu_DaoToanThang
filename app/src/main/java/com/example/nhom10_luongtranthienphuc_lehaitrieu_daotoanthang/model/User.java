@@ -10,6 +10,11 @@ public class User implements Serializable {
     public String username;
     public String password;
     public String image;
+
+    public String getUserID() {
+        return userID;
+    }
+
     public String userID;
     public String lastMessage;
 
