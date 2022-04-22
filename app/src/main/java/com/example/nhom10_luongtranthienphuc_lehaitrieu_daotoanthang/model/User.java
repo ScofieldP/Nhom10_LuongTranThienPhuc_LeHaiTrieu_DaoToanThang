@@ -67,7 +67,7 @@ public class User implements Serializable {
         this.image = image;
     }
 
-    public String getUserID() {
+    public String getUserID(String key) {
         return userID;
     }
 
@@ -85,7 +85,7 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-
+                ", userID='" + userID + '\'' +
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
