@@ -2,6 +2,8 @@ package com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Base64;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -55,10 +58,22 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         User user = mUsers.get(position);
         ViewHolderUser viewHolderUser =(ViewHolderUser) holder;
         viewHolderUser.tvUser.setText(user.getUsername());
-        Picasso.get().load(user.getImage()).placeholder(R.drawable.profile).into(viewHolderUser.circleImageView);
+        viewHolderUser.circleImageView.setImageBitmap(getUserImage(user.image));
 
 
-//        Xem tin nhắn gần nhất
+        viewHolderUser.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Truyền dữ liệu qua chatdetail
+                Intent intent = new Intent(viewHolderUser.itemView.getContext(), ChatDetailActivity.class);
+                intent.putExtra("userID", user.getUserID());
+                intent.putExtra("username", user.getUsername());
+                intent.putExtra("img_profile", user.getImage());
+                viewHolderUser.itemView.getContext().startActivity(intent);
+            }
+        });
+
+        //        Xem tin nhắn gần nhất
         FirebaseDatabase.getInstance().getReference().child("chats")
                 .child(FirebaseAuth.getInstance().getUid() + user.getUserID())
                 .orderByChild("timestamp")
@@ -78,21 +93,18 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                     }
                 });
-        viewHolderUser.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Truyền dữ liệu qua chatdetail
-                Intent intent = new Intent(viewHolderUser.itemView.getContext(), ChatDetailActivity.class);
-                intent.putExtra("userID", user.getUserID());
-                intent.putExtra("username", user.getUsername());
 
-                viewHolderUser.itemView.getContext().startActivity(intent);
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
         return mUsers.size();
+    }
+
+
+    //chuyển hình ảnh thành chuỗi
+    private Bitmap getUserImage(String encodedImage){
+        byte []bytes = Base64.getDecoder().decode(encodedImage);
+        return BitmapFactory.decodeByteArray(bytes,0, bytes.length);
     }
 }

@@ -1,9 +1,12 @@
 package com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.model;
 
+import java.util.Date;
+
 public class Message {
     String uID, message;
     Long timeStamp;
-
+    String img;
+    public Date dateObject;
     public Message(String uID, String message, Long timeStamp) {
         this.uID = uID;
         this.message = message;
@@ -35,7 +38,7 @@ public class Message {
         this.message = message;
     }
 
-    public Long getTimeStamp() {
+    public long getTimeStamp() {
         return timeStamp;
     }
 

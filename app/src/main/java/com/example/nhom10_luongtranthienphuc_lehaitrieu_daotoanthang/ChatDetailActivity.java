@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -21,8 +23,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
+import java.util.Locale;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatDetailActivity extends AppCompatActivity {
     FirebaseDatabase fDB;
@@ -31,6 +38,7 @@ public class ChatDetailActivity extends AppCompatActivity {
     ImageView backArrow, send;
     RecyclerView rvChatDetails;
     EditText edtMess;
+    CircleImageView circleImageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +47,8 @@ public class ChatDetailActivity extends AppCompatActivity {
         backArrow = findViewById(R.id.back_arrow);
         send = findViewById(R.id.send);
         edtMess = findViewById(R.id.etMessage);
+        circleImageView = findViewById(R.id.profile_image);
+
         rvChatDetails = findViewById(R.id.rvChatDetail);
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,15 +60,17 @@ public class ChatDetailActivity extends AppCompatActivity {
         fDB = FirebaseDatabase.getInstance();
         fAuth = FirebaseAuth.getInstance();
 
+//        Nhận từ messageadapter (header)
         final String senderID =  fAuth.getUid();
         String receiverID = getIntent().getStringExtra("userID");
         String username = getIntent().getStringExtra("username");
         tvUName.setText(username);
+        circleImageView.setImageBitmap(getUserImage(getIntent().getStringExtra("img_profile")));
+
 
         final ArrayList<Message> messages = new ArrayList<>();
         final ChatAdapter chatAdapter = new ChatAdapter(messages,this);
         rvChatDetails.setAdapter(chatAdapter);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rvChatDetails.setLayoutManager(layoutManager);
 
@@ -111,5 +123,15 @@ public class ChatDetailActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private Bitmap getUserImage(String encodedImage){
+        byte []bytes = Base64.getDecoder().decode(encodedImage);
+        return BitmapFactory.decodeByteArray(bytes,0, bytes.length);
+
+    }
+
+    private String getReadableDateTime(Date date){
+        return new SimpleDateFormat("MMMM dd,yyyy - hh:mm a", Locale.getDefault()).format(date);
     }
 }
