@@ -57,6 +57,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         viewHolderUser.tvUser.setText(user.getUsername());
         Picasso.get().load(user.getImage()).placeholder(R.drawable.profile).into(viewHolderUser.circleImageView);
 
+
+//        Xem tin nhắn gần nhất
         FirebaseDatabase.getInstance().getReference().child("chats")
                 .child(FirebaseAuth.getInstance().getUid() + user.getUserID())
                 .orderByChild("timestamp")
@@ -79,6 +81,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         viewHolderUser.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                Truyền dữ liệu qua chatdetail
                 Intent intent = new Intent(viewHolderUser.itemView.getContext(), ChatDetailActivity.class);
                 intent.putExtra("userID", user.getUserID());
                 intent.putExtra("username", user.getUsername());
