@@ -31,11 +31,11 @@ public class ChatAdapter extends RecyclerView.Adapter{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == SENDER_VIEW_TYPE){
-            View view = LayoutInflater.from(context).inflate(R.layout.layout_sender,parent,false);
+            View view = LayoutInflater.from(context).inflate(R.layout.item_sent,parent,false);
             return new SenderViewHolder(view);
         }
         else {
-            View view = LayoutInflater.from(context).inflate(R.layout.layout_receiver,parent,false);
+            View view = LayoutInflater.from(context).inflate(R.layout.item_receiver,parent,false);
             return new ReceiverViewHolder(view);
         }
 
@@ -75,8 +75,8 @@ public class ChatAdapter extends RecyclerView.Adapter{
 
         public ReceiverViewHolder(@NonNull View itemView) {
             super(itemView);
-            receiverMsg = itemView.findViewById(R.id.receiverText);
-            receiverTime = itemView.findViewById(R.id.receiverTime);
+            receiverMsg = itemView.findViewById(R.id.tvReceiver);
+            receiverTime = itemView.findViewById(R.id.tvDatetime);
 
         }
     }
@@ -84,8 +84,8 @@ public class ChatAdapter extends RecyclerView.Adapter{
         TextView senderMsg, senderTime;
         public SenderViewHolder(@NonNull View itemView) {
             super(itemView);
-            senderMsg = itemView.findViewById(R.id.senderText);
-            senderTime = itemView.findViewById(R.id.senderTime);
+            senderMsg = itemView.findViewById(R.id.txtMess);
+            senderTime = itemView.findViewById(R.id.dateTime);
         }
     }
 }
