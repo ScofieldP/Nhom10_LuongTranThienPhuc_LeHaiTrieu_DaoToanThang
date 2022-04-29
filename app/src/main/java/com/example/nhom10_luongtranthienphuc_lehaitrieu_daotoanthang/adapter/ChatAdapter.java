@@ -70,13 +70,13 @@ public class ChatAdapter extends RecyclerView.Adapter{
         Message message = mMessage.get(position);
         if (holder.getClass() == SenderViewHolder.class){
             ((SenderViewHolder)holder).senderMsg.setText(message.getMessage());
-            ((SenderViewHolder)holder).senderTime.setText(getDateTime(message.getTimeStamp()));
+            ((SenderViewHolder)holder).senderTime.setText(getDateFromTimeStamp(message.getTimeStamp()));
 
         }
         else {
             ((ReceiverViewHolder)holder).receiverMsg.setText(message.getMessage());
             ((ReceiverViewHolder)holder).circleImageView.setImageBitmap(receiverImg);
-
+            ((ReceiverViewHolder)holder).receiverTime.setText(getDateFromTimeStamp(message.getTimeStamp()));
         }
     }
 
@@ -117,11 +117,12 @@ public class ChatAdapter extends RecyclerView.Adapter{
 
         //dd=day, MM=month, yyyy=year, hh=hour, mm=minute, ss=second.
 
-        String date = DateFormat.format("dd-MM-yyyy hh:mm:ss",calendar).toString();
+        String date = DateFormat.format("dd-MM-yyyy hh:mm a",calendar).toString();
         return date;
     }
-
-    private String getReadableDateTime(Date date){
-        return new SimpleDateFormat("MMMM dd,yyyy - hh:mm a", Locale.getDefault()).format(date);
+    private String getDateFromTimeStamp(Long dt) {
+        Date date = new Date (dt);
+        return new SimpleDateFormat("dd-MM-yyyy hh:mm a").format(date);
     }
+
 }
