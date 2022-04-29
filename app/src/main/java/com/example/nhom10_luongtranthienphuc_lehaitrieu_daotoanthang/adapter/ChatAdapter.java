@@ -20,6 +20,7 @@ import com.github.pgreze.reactions.ReactionPopup;
 import com.github.pgreze.reactions.ReactionsConfig;
 import com.github.pgreze.reactions.ReactionsConfigBuilder;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,11 +40,12 @@ public class ChatAdapter extends RecyclerView.Adapter{
     private final Bitmap receiverImg;
     String senderRoom;
     String receiverRoom;
-    public ChatAdapter(ArrayList<Message> mMessage, Context context, Bitmap receiverImg) {
+    public ChatAdapter(ArrayList<Message> mMessage, Context context, Bitmap receiverImg, String senderRoom, String receiverRoom) {
         this.mMessage = mMessage;
         this.context = context;
-
         this.receiverImg = receiverImg;
+        this.senderRoom = senderRoom;
+        this.receiverRoom = senderRoom;
     }
 
     @NonNull
@@ -100,6 +102,18 @@ public class ChatAdapter extends RecyclerView.Adapter{
                 ((ReceiverViewHolder)holder).reactFeeling.setVisibility(View.VISIBLE);
 
             }
+            message.setFeeling(pos);
+            FirebaseDatabase.getInstance().getReference()
+                    .child("chats")
+                    .child(senderRoom)
+                    .child(message.getMessageID())
+                    .setValue(message);
+
+            FirebaseDatabase.getInstance().getReference()
+                    .child("chats")
+                    .child(receiverRoom)
+                    .child(message.getMessageID())
+                    .setValue(message);
             return true; // true is closing popup, false is requesting a new selection
         });
 

@@ -39,6 +39,7 @@ public class ChatDetailActivity extends AppCompatActivity {
     RecyclerView rvChatDetails;
     EditText edtMess;
     CircleImageView circleImageView,smallIcon;
+    String senderRoom, receiverRoom;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,13 +74,14 @@ public class ChatDetailActivity extends AppCompatActivity {
 
         Bitmap receiverImg;
         receiverImg = getUserImage(getIntent().getStringExtra("img_profile"));
-        final ChatAdapter chatAdapter = new ChatAdapter(messages,this, receiverImg);
+
+        senderRoom = senderID + receiverID;
+        receiverRoom = receiverID + senderID;
+
+        final ChatAdapter chatAdapter = new ChatAdapter(messages,this, receiverImg,senderRoom, receiverRoom);
         rvChatDetails.setAdapter(chatAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rvChatDetails.setLayoutManager(layoutManager);
-
-        final String senderRoom = senderID + receiverID;
-        final String receiverRoom = receiverID + senderID;
 
         fDB.getReference().child("chats")
                 .child(senderRoom)
@@ -89,6 +91,7 @@ public class ChatDetailActivity extends AppCompatActivity {
                         messages.clear();
                         for (DataSnapshot snapshot1: snapshot.getChildren()){
                             Message model = snapshot1.getValue(Message.class);
+                            model.setMessageID(snapshot1.getKey());
                             messages.add(model);
                         }
                         chatAdapter.notifyDataSetChanged();
@@ -100,7 +103,7 @@ public class ChatDetailActivity extends AppCompatActivity {
                     }
                 });
 
-
+        String randomKey = fDB.getReference().push().getKey();
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,13 +113,13 @@ public class ChatDetailActivity extends AppCompatActivity {
                 edtMess.setText("");
                 fDB.getReference().child("chats")
                         .child(senderRoom)
-                        .push()
+                        .child(randomKey)
                         .setValue(mMess).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         fDB.getReference().child("chats")
                                 .child(receiverRoom)
-                                .push()
+                                .child(randomKey)
                                 .setValue(mMess).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
