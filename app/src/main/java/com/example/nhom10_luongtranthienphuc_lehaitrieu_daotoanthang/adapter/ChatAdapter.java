@@ -123,6 +123,14 @@ public class ChatAdapter extends RecyclerView.Adapter{
         if (holder.getClass() == SenderViewHolder.class){
             ((SenderViewHolder)holder).senderMsg.setText(message.getMessage());
             ((SenderViewHolder)holder).senderTime.setText(getDateFromTimeStamp(message.getTimeStamp()));
+            if (message.getFeeling() >= 0){
+//                message.setFeeling(reaction[(int ) message.getFeeling()]);
+                ((SenderViewHolder)holder).reactFeeling.setImageResource(reaction[(int ) message.getFeeling()]);
+                ((SenderViewHolder)holder).reactFeeling.setVisibility(View.VISIBLE);
+            }
+            else {
+                ((SenderViewHolder)holder).reactFeeling.setVisibility(View.GONE);
+            }
             ((SenderViewHolder)holder).senderMsg.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -133,6 +141,13 @@ public class ChatAdapter extends RecyclerView.Adapter{
         }
         else {
             ((ReceiverViewHolder)holder).receiverMsg.setText(message.getMessage());
+            if (message.getFeeling() >= 0){
+                ((ReceiverViewHolder)holder).reactFeeling.setImageResource(reaction[(int ) message.getFeeling()]);
+                ((ReceiverViewHolder)holder).reactFeeling.setVisibility(View.VISIBLE);
+            }
+            else {
+                ((ReceiverViewHolder)holder).reactFeeling.setVisibility(View.GONE);
+            }
             ((ReceiverViewHolder)holder).receiverMsg.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {

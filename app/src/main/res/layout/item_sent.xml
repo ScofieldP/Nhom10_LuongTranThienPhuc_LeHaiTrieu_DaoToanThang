@@ -40,7 +40,7 @@
         android:layout_height="16dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="4dp"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/txtMess"
         app:layout_constraintEnd_toStartOf="@+id/txtMess"
         app:layout_constraintHorizontal_bias="0.571"
