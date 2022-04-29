@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class Message {
     String uID, message;
+
     Long timeStamp;
-    String img;
-    public Date dateObject;
+    int feeling;
     public Message(String uID, String message, Long timeStamp) {
         this.uID = uID;
         this.message = message;
@@ -44,5 +44,13 @@ public class Message {
 
     public void setTimeStamp(Long timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public int getFeeling() {
+        return feeling;
+    }
+
+    public void setFeeling(int feeling) {
+        this.feeling = feeling;
     }
 }

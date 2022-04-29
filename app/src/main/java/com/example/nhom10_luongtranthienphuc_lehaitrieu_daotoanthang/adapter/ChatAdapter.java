@@ -5,8 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.R;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.model.Message;
+import com.github.pgreze.reactions.ReactionPopup;
+import com.github.pgreze.reactions.ReactionsConfig;
+import com.github.pgreze.reactions.ReactionsConfigBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
@@ -32,6 +37,8 @@ public class ChatAdapter extends RecyclerView.Adapter{
     int SENDER_VIEW_TYPE = 1;
     int RECEIVER_VIEW_TYPE = 2;
     private final Bitmap receiverImg;
+    String senderRoom;
+    String receiverRoom;
     public ChatAdapter(ArrayList<Message> mMessage, Context context, Bitmap receiverImg) {
         this.mMessage = mMessage;
         this.context = context;
@@ -68,13 +75,57 @@ public class ChatAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Message message = mMessage.get(position);
+
+        int [] reaction = new int[]{
+                R.drawable.ic_fb_like,
+                R.drawable.ic_fb_love,
+                R.drawable.ic_fb_laugh,
+                R.drawable.ic_fb_wow,
+                R.drawable.ic_fb_sad,
+                R.drawable.ic_fb_angry
+        };
+        ReactionsConfig config = new ReactionsConfigBuilder(context)
+                .withReactions(reaction)
+                .build();
+
+        ReactionPopup popup = new ReactionPopup(context, config, (pos) -> {
+            if (holder.getClass() == SenderViewHolder.class){
+                ((SenderViewHolder)holder).reactFeeling.setImageResource(reaction[pos]);
+                ((SenderViewHolder)holder).reactFeeling.setVisibility(View.VISIBLE);
+
+
+            }
+            else {
+                ((ReceiverViewHolder)holder).reactFeeling.setImageResource(reaction[pos]);
+                ((ReceiverViewHolder)holder).reactFeeling.setVisibility(View.VISIBLE);
+
+            }
+            return true; // true is closing popup, false is requesting a new selection
+        });
+
+
+
+
         if (holder.getClass() == SenderViewHolder.class){
             ((SenderViewHolder)holder).senderMsg.setText(message.getMessage());
             ((SenderViewHolder)holder).senderTime.setText(getDateFromTimeStamp(message.getTimeStamp()));
-
+            ((SenderViewHolder)holder).senderMsg.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    popup.onTouch(view, motionEvent);
+                    return false;
+                }
+            });
         }
         else {
             ((ReceiverViewHolder)holder).receiverMsg.setText(message.getMessage());
+            ((ReceiverViewHolder)holder).receiverMsg.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    popup.onTouch(view, motionEvent);
+                    return false;
+                }
+            });
             ((ReceiverViewHolder)holder).circleImageView.setImageBitmap(receiverImg);
             ((ReceiverViewHolder)holder).receiverTime.setText(getDateFromTimeStamp(message.getTimeStamp()));
         }
@@ -88,38 +139,28 @@ public class ChatAdapter extends RecyclerView.Adapter{
     public class ReceiverViewHolder extends RecyclerView.ViewHolder{
         TextView receiverMsg, receiverTime;
         CircleImageView circleImageView;
+        ImageView reactFeeling;
         public ReceiverViewHolder(@NonNull View itemView) {
             super(itemView);
             receiverMsg = itemView.findViewById(R.id.tvReceiver);
             receiverTime = itemView.findViewById(R.id.tvDatetime);
             circleImageView = itemView.findViewById(R.id.smaill_icon);
+            reactFeeling = itemView.findViewById(R.id.feelingReceiver);
         }
     }
     public class SenderViewHolder extends RecyclerView.ViewHolder {
         TextView senderMsg, senderTime;
+        ImageView reactFeeling;
+
         public SenderViewHolder(@NonNull View itemView) {
             super(itemView);
             senderMsg = itemView.findViewById(R.id.txtMess);
             senderTime = itemView.findViewById(R.id.dateTime);
+            reactFeeling = itemView.findViewById(R.id.feeling);
         }
     }
 
 
-    private Bitmap getUserImage(String encodedImage){
-        byte []bytes = Base64.getDecoder().decode(encodedImage);
-        return BitmapFactory.decodeByteArray(bytes,0, bytes.length);
-    }
-
-    private String getDateTime(Long time) {
-        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
-        time = System.currentTimeMillis();
-        calendar.setTimeInMillis(time);
-
-        //dd=day, MM=month, yyyy=year, hh=hour, mm=minute, ss=second.
-
-        String date = DateFormat.format("dd-MM-yyyy hh:mm a",calendar).toString();
-        return date;
-    }
     private String getDateFromTimeStamp(Long dt) {
         Date date = new Date (dt);
         return new SimpleDateFormat("dd-MM-yyyy hh:mm a").format(date);

@@ -26,8 +26,8 @@
         <entry key="..\:/Android P/app/src/main/res/layout/fragment_friend.xml" value="0.12447916666666667" />
         <entry key="..\:/Android P/app/src/main/res/layout/fragment_friend_request.xml" value="0.12447916666666667" />
         <entry key="..\:/Android P/app/src/main/res/layout/fragment_message.xml" value="0.264" />
-        <entry key="..\:/Android P/app/src/main/res/layout/item_receiver.xml" value="0.265625" />
-        <entry key="..\:/Android P/app/src/main/res/layout/item_sent.xml" value="0.265625" />
+        <entry key="..\:/Android P/app/src/main/res/layout/item_receiver.xml" value="0.8" />
+        <entry key="..\:/Android P/app/src/main/res/layout/item_sent.xml" value="0.6" />
         <entry key="..\:/Android P/app/src/main/res/layout/layout_chat.xml" value="0.12447916666666667" />
         <entry key="..\:/Android P/app/src/main/res/layout/layout_receiver.xml" value="0.264" />
         <entry key="..\:/Android P/app/src/main/res/layout/layout_sender.xml" value="0.47540983606557374" />
