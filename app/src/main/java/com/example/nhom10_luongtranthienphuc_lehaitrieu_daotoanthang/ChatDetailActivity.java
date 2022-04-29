@@ -38,7 +38,7 @@ public class ChatDetailActivity extends AppCompatActivity {
     ImageView backArrow, send;
     RecyclerView rvChatDetails;
     EditText edtMess;
-    CircleImageView circleImageView;
+    CircleImageView circleImageView,smallIcon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +48,7 @@ public class ChatDetailActivity extends AppCompatActivity {
         send = findViewById(R.id.send);
         edtMess = findViewById(R.id.etMessage);
         circleImageView = findViewById(R.id.profile_image);
-
+//        smallIcon = findViewById(R.id.smaill_icon);
         rvChatDetails = findViewById(R.id.rvChatDetail);
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,8 +68,12 @@ public class ChatDetailActivity extends AppCompatActivity {
         circleImageView.setImageBitmap(getUserImage(getIntent().getStringExtra("img_profile")));
 
 
+        //RecyclerView (ChatAdapter)
         final ArrayList<Message> messages = new ArrayList<>();
-        final ChatAdapter chatAdapter = new ChatAdapter(messages,this);
+
+        Bitmap receiverImg;
+        receiverImg = getUserImage(getIntent().getStringExtra("img_profile"));
+        final ChatAdapter chatAdapter = new ChatAdapter(messages,this, receiverImg);
         rvChatDetails.setAdapter(chatAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rvChatDetails.setLayoutManager(layoutManager);
@@ -131,7 +135,4 @@ public class ChatDetailActivity extends AppCompatActivity {
 
     }
 
-    private String getReadableDateTime(Date date){
-        return new SimpleDateFormat("MMMM dd,yyyy - hh:mm a", Locale.getDefault()).format(date);
-    }
 }
