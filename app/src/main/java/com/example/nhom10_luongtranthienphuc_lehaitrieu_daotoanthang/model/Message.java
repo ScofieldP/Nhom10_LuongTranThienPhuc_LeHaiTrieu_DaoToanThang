@@ -3,7 +3,7 @@ package com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.model;
 import java.util.Date;
 
 public class Message {
-    String uID, message,messageID;
+    String uID, message,messageID, imageUrl;
 
     Long timeStamp;
     int feeling =-1;
@@ -60,5 +60,13 @@ public class Message {
 
     public void setMessageID(String messageID) {
         this.messageID = messageID;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

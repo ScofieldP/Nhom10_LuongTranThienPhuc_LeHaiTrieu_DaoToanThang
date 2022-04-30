@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.R;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.model.Message;
 import com.github.pgreze.reactions.ReactionPopup;
@@ -123,6 +124,14 @@ public class ChatAdapter extends RecyclerView.Adapter{
         if (holder.getClass() == SenderViewHolder.class){
             ((SenderViewHolder)holder).senderMsg.setText(message.getMessage());
             ((SenderViewHolder)holder).senderTime.setText(getDateFromTimeStamp(message.getTimeStamp()));
+
+//            Gửi hình
+            if (message.getMessage().equals("photo")){
+                ((SenderViewHolder)holder).sentImg.setVisibility(View.VISIBLE);
+                ((SenderViewHolder)holder).senderMsg.setVisibility(View.GONE);
+                Glide.with(context).load(message.getImageUrl()).into( ((SenderViewHolder)holder).sentImg);
+            }
+
             if (message.getFeeling() >= 0){
 //                message.setFeeling(reaction[(int ) message.getFeeling()]);
                 ((SenderViewHolder)holder).reactFeeling.setImageResource(reaction[(int ) message.getFeeling()]);
@@ -131,7 +140,15 @@ public class ChatAdapter extends RecyclerView.Adapter{
             else {
                 ((SenderViewHolder)holder).reactFeeling.setVisibility(View.GONE);
             }
+
             ((SenderViewHolder)holder).senderMsg.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    popup.onTouch(view, motionEvent);
+                    return false;
+                }
+            });
+            ((SenderViewHolder)holder).sentImg.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
                     popup.onTouch(view, motionEvent);
@@ -141,6 +158,11 @@ public class ChatAdapter extends RecyclerView.Adapter{
         }
         else {
             ((ReceiverViewHolder)holder).receiverMsg.setText(message.getMessage());
+            if (message.getMessage().equals("photo")){
+                ((ReceiverViewHolder)holder).receiImg.setVisibility(View.VISIBLE);
+                ((ReceiverViewHolder)holder).receiverMsg.setVisibility(View.GONE);
+                Glide.with(context).load(message.getImageUrl()).into( ((ReceiverViewHolder)holder).receiImg);
+            }
             if (message.getFeeling() >= 0){
                 ((ReceiverViewHolder)holder).reactFeeling.setImageResource(reaction[(int ) message.getFeeling()]);
                 ((ReceiverViewHolder)holder).reactFeeling.setVisibility(View.VISIBLE);
@@ -149,6 +171,13 @@ public class ChatAdapter extends RecyclerView.Adapter{
                 ((ReceiverViewHolder)holder).reactFeeling.setVisibility(View.GONE);
             }
             ((ReceiverViewHolder)holder).receiverMsg.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    popup.onTouch(view, motionEvent);
+                    return false;
+                }
+            });
+            ((ReceiverViewHolder)holder).receiImg.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
                     popup.onTouch(view, motionEvent);
@@ -168,24 +197,26 @@ public class ChatAdapter extends RecyclerView.Adapter{
     public class ReceiverViewHolder extends RecyclerView.ViewHolder{
         TextView receiverMsg, receiverTime;
         CircleImageView circleImageView;
-        ImageView reactFeeling;
+        ImageView reactFeeling, receiImg;
         public ReceiverViewHolder(@NonNull View itemView) {
             super(itemView);
             receiverMsg = itemView.findViewById(R.id.tvReceiver);
             receiverTime = itemView.findViewById(R.id.tvDatetime);
             circleImageView = itemView.findViewById(R.id.smaill_icon);
             reactFeeling = itemView.findViewById(R.id.feelingReceiver);
+            receiImg = itemView.findViewById(R.id.receiverImg);
         }
     }
     public class SenderViewHolder extends RecyclerView.ViewHolder {
         TextView senderMsg, senderTime;
-        ImageView reactFeeling;
+        ImageView reactFeeling, sentImg;
 
         public SenderViewHolder(@NonNull View itemView) {
             super(itemView);
             senderMsg = itemView.findViewById(R.id.txtMess);
             senderTime = itemView.findViewById(R.id.dateTime);
             reactFeeling = itemView.findViewById(R.id.feeling);
+            sentImg = itemView.findViewById(R.id.sentImg);
         }
     }
 

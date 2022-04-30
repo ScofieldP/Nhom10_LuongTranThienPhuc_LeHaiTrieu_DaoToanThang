@@ -1,5 +1,7 @@
 package com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,21 +10,32 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.adapter.ChatAdapter;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.model.Message;
+import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -34,12 +47,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ChatDetailActivity extends AppCompatActivity {
     FirebaseDatabase fDB;
     FirebaseAuth fAuth;
+    FirebaseStorage storage;
     TextView tvUName;
-    ImageView backArrow, send;
+    ImageView backArrow, send, btnAttach;
     RecyclerView rvChatDetails;
     EditText edtMess;
-    CircleImageView circleImageView,smallIcon;
+    CircleImageView circleImageView;
     String senderRoom, receiverRoom;
+    String senderID;
+    String receiverID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +65,9 @@ public class ChatDetailActivity extends AppCompatActivity {
         send = findViewById(R.id.send);
         edtMess = findViewById(R.id.etMessage);
         circleImageView = findViewById(R.id.profile_image);
-//        smallIcon = findViewById(R.id.smaill_icon);
+        btnAttach = findViewById(R.id.btnAttach);
         rvChatDetails = findViewById(R.id.rvChatDetail);
+
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,15 +75,29 @@ public class ChatDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+//        Firebase
         fDB = FirebaseDatabase.getInstance();
         fAuth = FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
+
 
 //        Nhận từ messageadapter (header)
-        final String senderID =  fAuth.getUid();
-        String receiverID = getIntent().getStringExtra("userID");
+        senderID =  fAuth.getUid();
+        receiverID = getIntent().getStringExtra("userID");
         String username = getIntent().getStringExtra("username");
         tvUName.setText(username);
         circleImageView.setImageBitmap(getUserImage(getIntent().getStringExtra("img_profile")));
+
+//      Đính tệp tin
+        btnAttach.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                uploadImg.launch(intent);
+            }
+        });
 
 
         //RecyclerView (ChatAdapter)
@@ -103,11 +134,12 @@ public class ChatDetailActivity extends AppCompatActivity {
                     }
                 });
 
-        String randomKey = fDB.getReference().push().getKey();
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String mess = edtMess.getText().toString();
+                String randomKey = fDB.getReference().push().getKey();
+
                 final Message mMess =  new Message(senderID, mess);
                 mMess.setTimeStamp(new Date().getTime());
                 edtMess.setText("");
@@ -137,5 +169,55 @@ public class ChatDetailActivity extends AppCompatActivity {
         return BitmapFactory.decodeByteArray(bytes,0, bytes.length);
 
     }
+    private ActivityResultLauncher<Intent> uploadImg = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK){
+                    if(result.getData()!= null){
+                        Uri selectImg = result.getData().getData();
+                        StorageReference reference = storage.getReference().child("chats");
+                        reference.putFile(selectImg).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                if (task.isSuccessful()){
+                                    reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            String filePath = uri.toString();
+                                            String mess = edtMess.getText().toString();
+                                            String randomKey = fDB.getReference().push().getKey();
+                                            final Message mMess =  new Message(senderID, mess);
+//                                            đẩy hình
+                                            mMess.setMessage("photo");
+                                            mMess.setImageUrl(filePath);
+                                            mMess.setTimeStamp(new Date().getTime());
+                                            edtMess.setText("");
+                                            fDB.getReference().child("chats")
+                                                    .child(senderRoom)
+                                                    .child(randomKey)
+                                                    .setValue(mMess).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    fDB.getReference().child("chats")
+                                                            .child(receiverRoom)
+                                                            .child(randomKey)
+                                                            .setValue(mMess).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
 
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                            Toast.makeText(ChatDetailActivity.this, filePath, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+                        });
+
+                    }
+                }
+            }
+    );
 }
