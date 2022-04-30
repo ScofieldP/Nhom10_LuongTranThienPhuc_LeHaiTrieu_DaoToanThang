@@ -107,4 +107,6 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         byte []bytes = Base64.getDecoder().decode(encodedImage);
         return BitmapFactory.decodeByteArray(bytes,0, bytes.length);
     }
+
+
 }

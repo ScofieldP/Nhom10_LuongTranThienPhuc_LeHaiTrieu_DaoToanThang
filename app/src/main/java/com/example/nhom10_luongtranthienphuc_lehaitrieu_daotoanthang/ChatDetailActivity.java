@@ -48,7 +48,7 @@ public class ChatDetailActivity extends AppCompatActivity {
     FirebaseDatabase fDB;
     FirebaseAuth fAuth;
     FirebaseStorage storage;
-    TextView tvUName;
+    TextView tvUName, tvOnline;
     ImageView backArrow, send, btnAttach;
     RecyclerView rvChatDetails;
     EditText edtMess;
@@ -61,6 +61,7 @@ public class ChatDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_detail);
         tvUName = findViewById(R.id.tvUName);
+        tvOnline = findViewById(R.id.txtOnline);
         backArrow = findViewById(R.id.back_arrow);
         send = findViewById(R.id.send);
         edtMess = findViewById(R.id.etMessage);
@@ -88,6 +89,29 @@ public class ChatDetailActivity extends AppCompatActivity {
         String username = getIntent().getStringExtra("username");
         tvUName.setText(username);
         circleImageView.setImageBitmap(getUserImage(getIntent().getStringExtra("img_profile")));
+
+        //        Online, offline
+        fDB.getReference().child("presence").child(receiverID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    String status = snapshot.getValue(String.class);
+                    if(!status.isEmpty()) {
+                        if(status.equals("Offline")) {
+                            tvOnline.setVisibility(View.GONE);
+                        } else {
+                            tvOnline.setText(status);
+                            tvOnline.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 //      Đính tệp tin
         btnAttach.setOnClickListener(new View.OnClickListener() {
@@ -220,4 +244,17 @@ public class ChatDetailActivity extends AppCompatActivity {
                 }
             }
     );
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String currentId = FirebaseAuth.getInstance().getUid();
+        fDB.getReference().child("presence").child(currentId).setValue("Online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        String currentId = FirebaseAuth.getInstance().getUid();
+        fDB.getReference().child("presence").child(currentId).setValue("Offline");
+    }
 }

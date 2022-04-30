@@ -21,6 +21,8 @@ import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.fragment.Fr
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.fragment.MessageFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.Base64;
@@ -90,4 +92,19 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String currentId = FirebaseAuth.getInstance().getUid();
+        FirebaseDatabase.getInstance().getReference().child("presence").child(currentId).setValue("Online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        String currentId = FirebaseAuth.getInstance().getUid();
+        FirebaseDatabase.getInstance().getReference().child("presence").child(currentId).setValue("Offline");
+    }
+
 }

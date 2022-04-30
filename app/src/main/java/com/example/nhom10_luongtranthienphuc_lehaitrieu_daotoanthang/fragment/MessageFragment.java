@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.R;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.adapter.MessageAdapter;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.model.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -109,4 +110,6 @@ public class MessageFragment extends Fragment {
             }
         });
     }
+
+
 }
