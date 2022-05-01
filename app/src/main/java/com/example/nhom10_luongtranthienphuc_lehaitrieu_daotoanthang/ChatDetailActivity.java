@@ -188,11 +188,11 @@ public class ChatDetailActivity extends AppCompatActivity {
         });
     }
 
-    private Bitmap getUserImage(String encodedImage){
-        byte []bytes = Base64.getDecoder().decode(encodedImage);
-        return BitmapFactory.decodeByteArray(bytes,0, bytes.length);
+        private Bitmap getUserImage(String encodedImage){
+            byte []bytes = Base64.getDecoder().decode(encodedImage);
+            return BitmapFactory.decodeByteArray(bytes,0, bytes.length);
 
-    }
+        }
     private ActivityResultLauncher<Intent> uploadImg = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
