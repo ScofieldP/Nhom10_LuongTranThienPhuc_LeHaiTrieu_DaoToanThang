@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.auth.ChangePasswordActivity;
+import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.auth.ChangeProfile;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.auth.LoginActivity;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.model.User;
 import com.google.android.gms.tasks.OnFailureListener;

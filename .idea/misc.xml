@@ -19,8 +19,9 @@
         <entry key="..\:/Android P/app/src/main/res/drawable/item_receiver.xml" value="0.2515" />
         <entry key="..\:/Android P/app/src/main/res/drawable/item_sent.xml" value="0.2515" />
         <entry key="..\:/Android P/app/src/main/res/drawable/onboarding_indicator_inactive.xml" value="0.2415" />
-        <entry key="..\:/Android P/app/src/main/res/layout/activity_change_password.xml" value="0.265625" />
-        <entry key="..\:/Android P/app/src/main/res/layout/activity_chat_detail.xml" value="0.5044510385756676" />
+        <entry key="..\:/Android P/app/src/main/res/layout/activity_change_password.xml" value="0.2986111111111111" />
+        <entry key="..\:/Android P/app/src/main/res/layout/activity_change_profile.xml" value="0.265625" />
+        <entry key="..\:/Android P/app/src/main/res/layout/activity_chat_detail.xml" value="0.1" />
         <entry key="..\:/Android P/app/src/main/res/layout/activity_intro.xml" value="0.265625" />
         <entry key="..\:/Android P/app/src/main/res/layout/activity_login.xml" value="0.265625" />
         <entry key="..\:/Android P/app/src/main/res/layout/activity_main.xml" value="0.265625" />
