@@ -14,13 +14,8 @@
             android:exported="false" />
         <activity
             android:name=".auth.ChangePasswordActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="true" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".ChatDetailActivity"
             android:exported="false" />
@@ -29,7 +24,13 @@
             android:exported="true" />
         <activity
             android:name=".SplashActivity"
-            android:exported="true"/>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".intro.IntroActivity"
