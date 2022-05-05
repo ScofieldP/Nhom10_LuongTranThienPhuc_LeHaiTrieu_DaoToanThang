@@ -38,6 +38,12 @@ public class LoginActivity extends AppCompatActivity {
         txtNewMem = findViewById(R.id.txtNewMember);
         fAuth = FirebaseAuth.getInstance();
         fDB = FirebaseDatabase.getInstance();
+        if (fAuth.getCurrentUser() != null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+
+        }
         //đăng kí
         txtNewMem.setOnClickListener(new View.OnClickListener() {
             @Override

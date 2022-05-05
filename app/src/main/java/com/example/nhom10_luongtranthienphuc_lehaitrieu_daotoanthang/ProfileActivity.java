@@ -2,28 +2,37 @@ package com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.auth.ChangePasswordActivity;
-import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.auth.ChangeProfile;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.auth.LoginActivity;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -31,6 +40,8 @@ public class ProfileActivity extends AppCompatActivity {
     MaterialButton btnLogOut;
     CircleImageView imgProfile;
     TextView tvName, tvEmail, tvProfile, tvPassword;
+
+    TextInputEditText tvNewName;
     FirebaseDatabase fdb;
     FirebaseAuth fAuth;
     User user;
@@ -45,6 +56,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvEmail = findViewById(R.id.tvPemail);
         tvProfile = findViewById(R.id.editProfile);
         tvPassword = findViewById(R.id.editPassword);
+
         fdb = FirebaseDatabase.getInstance();
         fAuth = FirebaseAuth.getInstance();
         String userID = fAuth.getCurrentUser().getUid();
@@ -87,9 +99,45 @@ public class ProfileActivity extends AppCompatActivity {
         tvProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProfileActivity.this, ChangeProfile.class);
-                startActivity(intent);
+                Dialog dialog = new Dialog(ProfileActivity.this);
+                dialog.setContentView(R.layout.activity_change_profile);
+                Window window = dialog.getWindow();
+                if (window == null){
+                    return;
+
+                }
+                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                WindowManager.LayoutParams windowAttribute = window.getAttributes();
+                window.setAttributes(windowAttribute);
+
+//                if (Gravity.BOTTOM == windowAttribute.gravity){
+//                    dialog.setCancelable(true);
+//                }
+//                else {
+//                    dialog.setCancelable(false);
+//                }
+
+                AppCompatButton btnCancel, btnConfirm;
+                btnCancel = dialog.findViewById(R.id.btnCancel);
+                btnConfirm = dialog.findViewById(R.id.btnConfitm);
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                btnConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String[] words = tvNewName.getText().toString().split("\\s");
+                        Update(words[0]);
+                    }
+                });
+                dialog.show();
+
             }
+
         });
     }
 
@@ -98,5 +146,34 @@ public class ProfileActivity extends AppCompatActivity {
         byte []bytes = Base64.getDecoder().decode(encodedImage);
         return BitmapFactory.decodeByteArray(bytes,0, bytes.length);
 
+    }
+    private void Update(String username) {
+        FirebaseDatabase fDatabase;
+        fDatabase = FirebaseDatabase.getInstance();
+        fAuth = FirebaseAuth.getInstance();
+        DatabaseReference reference = fDatabase.getReference();
+        Map<String, Object> user = new HashMap<>();
+        user.put("username", username);
+
+
+        reference.child("users").child(fAuth.getUid()).setValue(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(), "Cập nhật thành công",
+                                Toast.LENGTH_SHORT).show();
+
+                        TextView tvNewName = findViewById(R.id.tvPassword);
+
+                        tvNewName.setText(username);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), e.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
