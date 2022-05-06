@@ -60,6 +60,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

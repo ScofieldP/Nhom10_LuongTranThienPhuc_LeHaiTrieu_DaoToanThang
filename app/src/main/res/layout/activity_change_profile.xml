@@ -33,7 +33,7 @@
     <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tvPassword"
+            android:id="@+id/tvMiniName"
             android:inputType="textPersonName"
             android:hint="Tên người dùng mới" />
 

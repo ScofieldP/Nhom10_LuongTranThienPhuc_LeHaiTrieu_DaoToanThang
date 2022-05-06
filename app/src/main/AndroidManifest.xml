@@ -10,9 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang">
         <activity
-            android:name=".auth.ChangeProfile"
-            android:exported="false" />
-        <activity
             android:name=".auth.ChangePasswordActivity"
             android:exported="true" />
 

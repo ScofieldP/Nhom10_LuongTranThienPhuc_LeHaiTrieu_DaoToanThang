@@ -30,6 +30,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +41,7 @@ public class ProfileActivity extends AppCompatActivity {
     MaterialButton btnLogOut;
     CircleImageView imgProfile;
     TextView tvName, tvEmail, tvProfile, tvPassword;
+    private String encodedImage;
 
     TextInputEditText tvNewName;
     FirebaseDatabase fdb;
@@ -78,6 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
+        //
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,6 +99,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+
+//      Thay đổi tên người dùng
         tvProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,6 +126,7 @@ public class ProfileActivity extends AppCompatActivity {
                 AppCompatButton btnCancel, btnConfirm;
                 btnCancel = dialog.findViewById(R.id.btnCancel);
                 btnConfirm = dialog.findViewById(R.id.btnConfitm);
+                tvNewName = dialog.findViewById(R.id.tvMiniName);
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -130,8 +136,9 @@ public class ProfileActivity extends AppCompatActivity {
                 btnConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
                         String[] words = tvNewName.getText().toString().split("\\s");
-                        Update(words[0]);
+                        Update(words[0], tvEmail.getText().toString(), encodedImage );
                     }
                 });
                 dialog.show();
@@ -147,15 +154,16 @@ public class ProfileActivity extends AppCompatActivity {
         return BitmapFactory.decodeByteArray(bytes,0, bytes.length);
 
     }
-    private void Update(String username) {
-        FirebaseDatabase fDatabase;
-        fDatabase = FirebaseDatabase.getInstance();
+    private void Update(String username, String email, String image) {
+        fdb = FirebaseDatabase.getInstance();
         fAuth = FirebaseAuth.getInstance();
-        DatabaseReference reference = fDatabase.getReference();
+        encodedImage = encodeImage(getUserImage(user.image));
+        image = encodedImage;
+        DatabaseReference reference = fdb.getReference();
         Map<String, Object> user = new HashMap<>();
         user.put("username", username);
-
-
+        user.put("email", email);
+        user.put("image", image);
         reference.child("users").child(fAuth.getUid()).setValue(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -163,8 +171,7 @@ public class ProfileActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Cập nhật thành công",
                                 Toast.LENGTH_SHORT).show();
 
-                        TextView tvNewName = findViewById(R.id.tvPassword);
-
+                        TextView tvNewName = findViewById(R.id.tvMiniName);
                         tvNewName.setText(username);
                     }
                 })
@@ -175,5 +182,14 @@ public class ProfileActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+    private String encodeImage(Bitmap bitmap){
+        int previewWidth =150;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.getEncoder().encodeToString(bytes);
     }
 }
