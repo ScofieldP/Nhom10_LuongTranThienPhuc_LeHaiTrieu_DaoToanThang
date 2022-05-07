@@ -1,14 +1,22 @@
 package com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.MainActivity;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.R;
+import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.SearchFriendActivity;
+import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.auth.LoginActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,6 +63,7 @@ public class FriendRequestFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -62,5 +71,21 @@ public class FriendRequestFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_friend_request, container, false);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.search_friend, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.mnuSearch){
+            Intent intent = new Intent(getActivity(), SearchFriendActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

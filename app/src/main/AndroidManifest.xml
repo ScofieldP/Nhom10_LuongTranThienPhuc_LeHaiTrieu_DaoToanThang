@@ -10,9 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang">
         <activity
+            android:name=".SearchFriendActivity"
+            android:exported="false" />
+        <activity
             android:name=".auth.ChangePasswordActivity"
             android:exported="true" />
-
         <activity
             android:name=".ChatDetailActivity"
             android:exported="false" />
@@ -28,7 +30,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".intro.IntroActivity"
             android:exported="true" />

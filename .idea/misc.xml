@@ -44,7 +44,14 @@
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_change_password.xml" value="0.265625" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_change_profile.xml" value="0.4" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_profile.xml" value="0.265625" />
+        <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_search_friend.xml" value="0.19270833333333334" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/fragment_change_profile_name.xml" value="0.265625" />
+        <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/fragment_friend.xml" value="0.1" />
+        <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/fragment_message.xml" value="0.1" />
+        <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/layout_friend.xml" value="0.19270833333333334" />
+        <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/layout_user.xml" value="0.19270833333333334" />
+        <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/menu/main_menu.xml" value="0.19270833333333334" />
+        <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/menu/search_friend.xml" value="0.5691318327974276" />
       </map>
     </option>
   </component>
