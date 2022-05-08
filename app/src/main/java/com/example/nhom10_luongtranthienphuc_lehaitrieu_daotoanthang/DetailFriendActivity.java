@@ -1,0 +1,13 @@
+package com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+
+public class DetailFriendActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_detail_friend);
+    }
+}
