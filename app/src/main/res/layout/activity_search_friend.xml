@@ -35,17 +35,36 @@
     <LinearLayout
         android:id="@+id/linearLayout5"
         android:layout_width="0dp"
-        android:layout_height="218dp"
+        android:layout_height="150dp"
         android:background="@color/purple_700"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarSearch">
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_white_corner"
-            android:drawableTint=""
+            android:background="@drawable/custom_input"
+            android:drawableLeft="@drawable/ic_baseline_search_24"
+            android:hint="Tìm kiếm bạn bè"
+            android:padding="18dp" />
     </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="455dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFindFriend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/layout_friend" />
+
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
