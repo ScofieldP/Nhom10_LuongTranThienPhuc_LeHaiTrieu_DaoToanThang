@@ -137,8 +137,8 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        String[] words = tvNewName.getText().toString().split("\\s");
-                        Update(words[0], tvEmail.getText().toString(), encodedImage );
+
+                        Update(tvNewName.getText().toString(), tvEmail.getText().toString(), encodedImage );
                     }
                 });
                 dialog.show();

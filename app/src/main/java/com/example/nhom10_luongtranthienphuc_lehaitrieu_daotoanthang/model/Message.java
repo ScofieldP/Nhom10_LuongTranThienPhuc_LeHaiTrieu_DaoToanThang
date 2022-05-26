@@ -6,7 +6,7 @@ public class Message {
     String uID, message,messageID, imageUrl;
 
     Long timeStamp;
-    int feeling =-1;
+    private int feeling =-1;
     public Message(String uID, String message, Long timeStamp) {
         this.uID = uID;
         this.message = message;

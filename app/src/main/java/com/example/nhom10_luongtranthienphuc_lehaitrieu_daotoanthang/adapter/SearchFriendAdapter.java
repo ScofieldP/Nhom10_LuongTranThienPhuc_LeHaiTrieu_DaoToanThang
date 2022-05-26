@@ -18,6 +18,8 @@ import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.R;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Base64;
@@ -26,9 +28,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SearchFriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     ArrayList<User> mUser;
+    DatabaseReference mUserRef;
     FirebaseUser fUser;
     FirebaseAuth fAuth;
-
     public SearchFriendAdapter(ArrayList<User> mUser) {
         this.mUser = mUser;
     }
@@ -53,6 +55,9 @@ public class SearchFriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         User user = mUser.get(position);
+        fAuth = FirebaseAuth.getInstance();
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
+        mUserRef = FirebaseDatabase.getInstance().getReference();
         ViewHolderFind viewHolderFind = (ViewHolderFind) holder;
         viewHolderFind.tvUser.setText(user.getUsername());
         viewHolderFind.circleImageView.setImageBitmap(getUserImage(user.image));
@@ -65,6 +70,7 @@ public class SearchFriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 intent.putExtra("userID", user.getUserID());
                 intent.putExtra("username", user.getUsername());
                 intent.putExtra("img_profile", user.getImage());
+
                 viewHolderFind.itemView.getContext().startActivity(intent);
             }
         });

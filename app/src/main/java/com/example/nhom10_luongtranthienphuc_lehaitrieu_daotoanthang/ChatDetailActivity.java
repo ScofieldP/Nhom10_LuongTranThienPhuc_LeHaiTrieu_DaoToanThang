@@ -157,7 +157,7 @@ public class ChatDetailActivity extends AppCompatActivity {
 
                     }
                 });
-
+//Gửi tin nhăn
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

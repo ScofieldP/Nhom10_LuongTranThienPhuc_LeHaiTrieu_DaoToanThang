@@ -51,10 +51,12 @@
         app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
 
     <androidx.appcompat.widget.AppCompatButton
-
+        android:id="@+id/btnDecline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
+        android:background="@android:color/holo_red_light"
+        android:text="Từ chối lời mời"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

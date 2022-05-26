@@ -24,8 +24,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     ArrayList<User> mUser;
-    FirebaseUser fUser;
-    FirebaseAuth fAuth;
+
     public FriendAdapter(ArrayList<User> mUser) {
         this.mUser = mUser;
     }

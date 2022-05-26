@@ -1,5 +1,9 @@
 package com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.auth;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,6 +32,18 @@ public class LoginActivity extends AppCompatActivity {
     Button btnSignIn;
     FirebaseAuth fAuth;
     FirebaseDatabase fDB;
+    ActivityResultLauncher<Intent> mActivityLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    Intent intent = result.getData();
+                    String email = intent.getStringExtra("email");
+
+                    editUser.setText(email);
+                }
+            }
+    );
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,19 +54,18 @@ public class LoginActivity extends AppCompatActivity {
         txtNewMem = findViewById(R.id.txtNewMember);
         fAuth = FirebaseAuth.getInstance();
         fDB = FirebaseDatabase.getInstance();
-//        if (fAuth.getCurrentUser() != null) {
-//            Intent intent = new Intent(this, MainActivity.class);
-//            startActivity(intent);
-//            finish();
-//
-//        }
+        if (fAuth.getCurrentUser() != null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+
+        }
         //đăng kí
         txtNewMem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
+                mActivityLauncher.launch(intent);            }
         });
 
         //đăng nhập

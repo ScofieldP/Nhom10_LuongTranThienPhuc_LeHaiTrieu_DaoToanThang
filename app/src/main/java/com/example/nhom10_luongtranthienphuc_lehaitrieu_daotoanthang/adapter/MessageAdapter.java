@@ -56,6 +56,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         User user = mUsers.get(position);
+
         ViewHolderUser viewHolderUser =(ViewHolderUser) holder;
         viewHolderUser.tvUser.setText(user.getUsername());
         viewHolderUser.circleImageView.setImageBitmap(getUserImage(user.image));

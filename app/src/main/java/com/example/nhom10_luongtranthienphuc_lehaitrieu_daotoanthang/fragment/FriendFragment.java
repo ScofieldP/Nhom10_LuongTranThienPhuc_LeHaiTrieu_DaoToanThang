@@ -95,9 +95,25 @@ public class FriendFragment extends Fragment {
         rvFriend.setLayoutManager(layoutManager);
         rvFriend.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
         fDB = FirebaseDatabase.getInstance();
-        fUser = FirebaseAuth.getInstance().getCurrentUser();
         fAuth = FirebaseAuth.getInstance();
-        fDB.getReference().child("users").addValueEventListener(new ValueEventListener() {
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
+        fDB.getReference().child("friends").child(fUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot :snapshot.getChildren()){
+                    User users = dataSnapshot.getValue(User.class);
+                    users.setUserID(dataSnapshot.getKey());
+                    friendList.add(users);
+                }
+                friendAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        fDB.getReference().child("friends").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot :snapshot.getChildren()){

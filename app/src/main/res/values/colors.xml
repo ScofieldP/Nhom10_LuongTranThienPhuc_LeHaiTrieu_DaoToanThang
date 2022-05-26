@@ -16,4 +16,5 @@
     <color name="colorBackground">#FFFFFF</color>
     <color name="colorOnBoardingIndicatorInactive">#72BCF7</color>
     <color name="titlecolor">#e58c2f</color>
+    <color name="trans">#99000000</color>
 </resources>
