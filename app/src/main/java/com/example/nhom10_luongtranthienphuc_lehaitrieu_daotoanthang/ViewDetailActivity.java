@@ -162,6 +162,7 @@ public class ViewDetailActivity extends AppCompatActivity {
         if (CurrentState.equals("nothing_happen")){
             Map<String,Object> hashMap  = new HashMap<>();
             hashMap.put("status","pending");
+            hashMap.put("username", username);
             requestRef.child(fUser.getUid()).child(userID).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
