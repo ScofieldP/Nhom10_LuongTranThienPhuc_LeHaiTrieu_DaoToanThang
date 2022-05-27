@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.ChatDetailActivity;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.DetailFriendActivity;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.R;
+import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.ViewDetailActivity;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -59,17 +60,25 @@ public class SearchFriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         mUserRef = FirebaseDatabase.getInstance().getReference();
         ViewHolderFind viewHolderFind = (ViewHolderFind) holder;
-        viewHolderFind.tvUser.setText(user.getUsername());
-        viewHolderFind.circleImageView.setImageBitmap(getUserImage(user.image));
+        if (!fUser.getUid().equals(user.getUserID())){
+            viewHolderFind.tvUser.setText(user.getUsername());
+            viewHolderFind.circleImageView.setImageBitmap(getUserImage(user.image));
+        }
+        else {
+            viewHolderFind.itemView.setVisibility(View.GONE);
+            viewHolderFind.itemView.setLayoutParams(new RecyclerView.LayoutParams(0,0));
+        }
+
+
 
         viewHolderFind.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                Truyền dữ liệu qua chatdetail
-                Intent intent = new Intent(viewHolderFind.itemView.getContext(), DetailFriendActivity.class);
+                Intent intent = new Intent(viewHolderFind.itemView.getContext(), ViewDetailActivity.class);
                 intent.putExtra("userID", user.getUserID());
-                intent.putExtra("username", user.getUsername());
-                intent.putExtra("img_profile", user.getImage());
+//                intent.putExtra("username", user.getUsername());
+//                intent.putExtra("img_profile", user.getImage());
 
                 viewHolderFind.itemView.getContext().startActivity(intent);
             }

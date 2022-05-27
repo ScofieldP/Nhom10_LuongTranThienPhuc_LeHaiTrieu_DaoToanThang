@@ -44,11 +44,11 @@ public class DetailFriendActivity extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseDatabase fDB;
     FirebaseUser fUser;
-    String username;
+    String username,profileImg;
+
     Bitmap encodedImage;
-    String profileImg;
     String currentState ="nothing_happen";
-    DatabaseReference mUserref,requestRef,friendRef;
+    DatabaseReference mUserref, requestRef, friendRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,11 +60,14 @@ public class DetailFriendActivity extends AppCompatActivity {
 
 //        nhận từ searchfriendAdapter
         String userID = getIntent().getStringExtra("userID");
-        username = getIntent().getStringExtra("username");
+//        username = getIntent().getStringExtra("username");
         tvUser.setText(username);
-        encodedImage = getUserImage(getIntent().getStringExtra("img_profile"));
-        profileImg = encodeImage(encodedImage);
-        circleImageView.setImageBitmap(encodedImage);
+//        encodedImage = getUserImage(getIntent().getStringExtra("img_profile"));
+//        profileImg = encodeImage(encodedImage);
+//        circleImageView.setImageBitmap(encodedImage);
+        LoadUser();
+
+
 //        Firebase
         fAuth = FirebaseAuth.getInstance();
         fDB = FirebaseDatabase.getInstance();
@@ -80,6 +83,31 @@ public class DetailFriendActivity extends AppCompatActivity {
             }
         });
         CheckUserExitance(userID);
+    }
+
+    private void LoadUser() {
+        mUserref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    profileImg = snapshot.child("image").getValue().toString();
+                    username = snapshot.child("username").getValue().toString();
+                    tvUser.setText(username);
+                    circleImageView.setImageBitmap(getUserImage(profileImg));
+
+                }
+                else{
+                    Toast.makeText(DetailFriendActivity.this,"Data not found", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(DetailFriendActivity.this,""+error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     private void CheckUserExitance(String userID) {
@@ -197,6 +225,7 @@ public class DetailFriendActivity extends AppCompatActivity {
             });
 
         }
+//        Đã gửi lời mời
         if (currentState.equals("I_sent_pending") || currentState.equals("I_sent_decline")){
             requestRef.child(fUser.getUid()).child(userID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -215,7 +244,7 @@ public class DetailFriendActivity extends AppCompatActivity {
             });
         }
         if (currentState.equals("he_sent_pending")){
-            requestRef.child(userID).child(fUser.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            requestRef.child(fUser.getUid()).child(userID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()){

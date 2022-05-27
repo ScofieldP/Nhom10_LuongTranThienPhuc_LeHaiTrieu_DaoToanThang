@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.adapter.SearchFriendAdapter;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.model.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -26,6 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SearchFriendActivity extends AppCompatActivity {
     FirebaseDatabase fDB;
     FirebaseAuth fAuth;
+    FirebaseUser fUser;
     ImageView backArrow;
     RecyclerView rvFindFriend;
     EditText searchbar;
@@ -49,7 +51,7 @@ public class SearchFriendActivity extends AppCompatActivity {
         //        Firebase
         fDB = FirebaseDatabase.getInstance();
         fAuth = FirebaseAuth.getInstance();
-
+        fUser = fAuth.getCurrentUser();
         //RecyclerView (SearchAdapter)
         final ArrayList<User> friendList = new ArrayList<>();
         final SearchFriendAdapter searchFriendAdapter = new SearchFriendAdapter(friendList);

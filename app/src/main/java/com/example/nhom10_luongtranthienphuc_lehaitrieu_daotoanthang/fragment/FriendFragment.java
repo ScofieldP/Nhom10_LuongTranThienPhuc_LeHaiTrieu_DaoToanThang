@@ -113,21 +113,6 @@ public class FriendFragment extends Fragment {
 
             }
         });
-        fDB.getReference().child("friends").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot :snapshot.getChildren()){
-                    User users = dataSnapshot.getValue(User.class);
-                    users.setUserID(dataSnapshot.getKey());
-                    friendList.add(users);
-                }
-                friendAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 }

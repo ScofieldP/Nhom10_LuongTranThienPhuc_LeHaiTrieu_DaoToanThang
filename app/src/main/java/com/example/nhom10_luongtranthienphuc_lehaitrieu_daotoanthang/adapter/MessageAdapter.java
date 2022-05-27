@@ -16,6 +16,7 @@ import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.ChatDetailA
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.R;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.model.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -31,6 +32,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
     ArrayList<User> mUsers;
+    FirebaseAuth fAuth;
+    FirebaseUser fUser;
 
     public MessageAdapter(ArrayList<User> users) {
         this.mUsers = users;
@@ -56,10 +59,19 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         User user = mUsers.get(position);
-
+        fAuth = FirebaseAuth.getInstance();
+        fUser = fAuth.getCurrentUser();
         ViewHolderUser viewHolderUser =(ViewHolderUser) holder;
-        viewHolderUser.tvUser.setText(user.getUsername());
-        viewHolderUser.circleImageView.setImageBitmap(getUserImage(user.image));
+
+//        Xóa trùng ID
+        if (!fUser.getUid().equals(user.getUserID())){
+            viewHolderUser.tvUser.setText(user.getUsername());
+            viewHolderUser.circleImageView.setImageBitmap(getUserImage(user.image));
+        }
+        else {
+            viewHolderUser.itemView.setVisibility(View.GONE);
+            viewHolderUser.itemView.setLayoutParams(new RecyclerView.LayoutParams(0,0));
+        }
 
 
         viewHolderUser.itemView.setOnClickListener(new View.OnClickListener() {
