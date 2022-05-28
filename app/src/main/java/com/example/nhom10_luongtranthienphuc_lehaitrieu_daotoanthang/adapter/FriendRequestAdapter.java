@@ -37,7 +37,7 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<RecyclerView.View
         public ViewHolderRequest(@NonNull View itemView) {
             super(itemView);
             circleImageView = itemView.findViewById(R.id.profile_image);
-            tvUser = itemView.findViewById(R.id.tvName);
+            tvUser = itemView.findViewById(R.id.tvUName);
             btnAccept = itemView.findViewById(R.id.btnAccept);
             btnDecline = itemView.findViewById(R.id.btnDecline);
         }

@@ -75,6 +75,9 @@ public class ViewDetailActivity extends AppCompatActivity {
     }
 
     private void CheckUserExistane(String userID) {
+
+//        đã là bạn bè
+//        id mình với bạn bè
         friendRef.child(fUser.getUid()).child(userID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -92,6 +95,7 @@ public class ViewDetailActivity extends AppCompatActivity {
 
             }
         });
+//        id bạn bè với mình
         friendRef.child(userID).child(fUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -159,10 +163,13 @@ public class ViewDetailActivity extends AppCompatActivity {
     }
 
     private void PerformAction(String userID){
+
         if (CurrentState.equals("nothing_happen")){
             Map<String,Object> hashMap  = new HashMap<>();
             hashMap.put("status","pending");
-            hashMap.put("username", username);
+            hashMap.put("username", mUsername);
+
+
             requestRef.child(fUser.getUid()).child(userID).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
