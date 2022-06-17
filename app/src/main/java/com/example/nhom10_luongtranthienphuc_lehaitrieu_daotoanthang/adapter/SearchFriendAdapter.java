@@ -74,7 +74,7 @@ public class SearchFriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         viewHolderFind.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Truyền dữ liệu qua chatdetail
+//                Truyền dữ liệu qua viewdetail
                 Intent intent = new Intent(viewHolderFind.itemView.getContext(), ViewDetailActivity.class);
                 intent.putExtra("userID", user.getUserID());
 //                intent.putExtra("username", user.getUsername());

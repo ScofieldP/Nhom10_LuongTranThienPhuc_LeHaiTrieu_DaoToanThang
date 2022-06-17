@@ -132,6 +132,12 @@ public class ChatAdapter extends RecyclerView.Adapter{
                 Glide.with(context).load(message.getImageUrl()).into( ((SenderViewHolder)holder).sentImg);
             }
 
+            if (message.getMessage().equals("video")){
+                ((SenderViewHolder)holder).sentImg.setVisibility(View.VISIBLE);
+                ((SenderViewHolder)holder).senderMsg.setVisibility(View.GONE);
+                Glide.with(context).load(message.getImageUrl()).into( ((SenderViewHolder)holder).sentImg);
+            }
+
 //            if (message.getFeeling() >= 0){
 //                message.setFeeling(reaction[(int ) message.getFeeling()]);
 ////                ((SenderViewHolder)holder).reactFeeling.setImageResource(reaction[(int ) message.getFeeling()]);
@@ -159,6 +165,11 @@ public class ChatAdapter extends RecyclerView.Adapter{
         else {
             ((ReceiverViewHolder)holder).receiverMsg.setText(message.getMessage());
             if (message.getMessage().equals("photo")){
+                ((ReceiverViewHolder)holder).receiImg.setVisibility(View.VISIBLE);
+                ((ReceiverViewHolder)holder).receiverMsg.setVisibility(View.GONE);
+                Glide.with(context).load(message.getImageUrl()).into( ((ReceiverViewHolder)holder).receiImg);
+            }
+            if (message.getMessage().equals("video")){
                 ((ReceiverViewHolder)holder).receiImg.setVisibility(View.VISIBLE);
                 ((ReceiverViewHolder)holder).receiverMsg.setVisibility(View.GONE);
                 Glide.with(context).load(message.getImageUrl()).into( ((ReceiverViewHolder)holder).receiImg);

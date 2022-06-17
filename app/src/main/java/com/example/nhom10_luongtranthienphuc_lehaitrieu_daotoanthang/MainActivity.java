@@ -73,10 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 toolbar.setTitle("Bạn bè");
                 frag = new FriendFragment();
                 break;
-            case R.id.mnuFRequest:
-                toolbar.setTitle("Lời mời kết bạn");
-                frag = new FriendRequestFragment();
-                break;
+
         }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content, frag);

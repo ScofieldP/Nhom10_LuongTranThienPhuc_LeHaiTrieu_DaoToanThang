@@ -44,7 +44,7 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnCancel"
+                android:id="@+id/btnCancel1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -56,7 +56,7 @@
                 android:textSize="14sp" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnConfitm"
+                android:id="@+id/btnConfitm1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

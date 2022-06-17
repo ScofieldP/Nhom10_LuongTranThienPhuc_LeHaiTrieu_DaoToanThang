@@ -42,6 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
+        android:background="@color/colorPrimary1"
         android:text="Kết bạn"
         android:textAllCaps="false"
         android:textSize="20dp"

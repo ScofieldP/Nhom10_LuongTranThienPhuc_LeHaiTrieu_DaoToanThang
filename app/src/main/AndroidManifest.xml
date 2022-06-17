@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang">
         <activity
+            android:name=".LogOutActivity"
+            android:exported="false" />
+        <activity
             android:name=".ViewDetailActivity"
             android:exported="false" />
         <activity

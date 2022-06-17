@@ -44,8 +44,10 @@
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/drawable/bg_white_corner.xml" value="0.2705" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_change_password.xml" value="0.265625" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_change_profile.xml" value="0.4" />
+        <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_chat_detail.xml" value="0.265625" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_detail_friend.xml" value="0.5038639876352395" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_intro.xml" value="0.1" />
+        <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_log_out.xml" value="0.5796089385474861" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_login.xml" value="0.265625" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_main.xml" value="0.13425925925925927" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_profile.xml" value="0.265625" />
@@ -56,6 +58,7 @@
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/fragment_friend.xml" value="0.1" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/fragment_friend_request.xml" value="0.1" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/fragment_message.xml" value="0.1" />
+        <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/item_container_onboarding.xml" value="0.265625" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/item_receiver.xml" value="0.265625" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/item_sent.xml" value="0.265625" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/layout_friend.xml" value="0.19270833333333334" />

@@ -24,6 +24,13 @@
             android:visibility="gone"
             tools:srcCompat="@tools:sample/avatars" />
 
+<!--        <VideoView-->
+<!--            android:layout_width="200dp"-->
+<!--            android:layout_height="130dp"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:visibility="visible"-->
+<!--            tools:srcCompat="@tools:sample/avatars" />-->
+
         <TextView
             android:id="@+id/txtMess"
             android:layout_width="wrap_content"

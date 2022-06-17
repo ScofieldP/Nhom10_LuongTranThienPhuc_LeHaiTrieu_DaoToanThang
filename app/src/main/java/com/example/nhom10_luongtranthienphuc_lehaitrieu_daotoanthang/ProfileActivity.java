@@ -23,7 +23,6 @@ import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -40,9 +39,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileActivity extends AppCompatActivity {
     MaterialButton btnLogOut;
     CircleImageView imgProfile;
-    TextView tvName, tvEmail, tvProfile, tvPassword;
+    TextView tvName, tvEmail, tvProfile, tvPassword, tvConfirm;
     private String encodedImage;
-
     TextInputEditText tvNewName;
     FirebaseDatabase fdb;
     FirebaseAuth fAuth;
@@ -81,22 +79,55 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 });
         //
-        btnLogOut.setOnClickListener(new View.OnClickListener() {
+        tvPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                Intent intent =  new Intent(ProfileActivity.this, ChangePasswordActivity.class);
                 startActivity(intent);
+
+//                FirebaseAuth.getInstance().signOut();
+//                Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+//                startActivity(intent);
             }
         });
 
 
-        tvPassword.setOnClickListener(new View.OnClickListener() {
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProfileActivity.this, ChangePasswordActivity.class);
-                startActivity(intent);
+                Dialog dialog = new Dialog(ProfileActivity.this);
+                dialog.setContentView(R.layout.activity_log_out);
+                Window window = dialog.getWindow();
+                if (window == null){
+                    return;
+
+                }
+                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                WindowManager.LayoutParams windowAttribute = window.getAttributes();
+                window.setAttributes(windowAttribute);
+                AppCompatButton btnCancel1, btnConfirm1;
+                btnCancel1 = dialog.findViewById(R.id.btnCancel1);
+                btnConfirm1 = dialog.findViewById(R.id.btnConfitm1);
+                tvConfirm = dialog.findViewById(R.id.tvConfirm);
+                btnCancel1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                btnConfirm1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FirebaseAuth.getInstance().signOut();
+                        Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                dialog.show();
+
             }
+
         });
 
 
@@ -124,8 +155,8 @@ public class ProfileActivity extends AppCompatActivity {
 //                }
 
                 AppCompatButton btnCancel, btnConfirm;
-                btnCancel = dialog.findViewById(R.id.btnCancel);
-                btnConfirm = dialog.findViewById(R.id.btnConfitm);
+                btnCancel = dialog.findViewById(R.id.btnCancel1);
+                btnConfirm = dialog.findViewById(R.id.btnConfitm1);
                 tvNewName = dialog.findViewById(R.id.tvMiniName);
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -16,8 +16,10 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.adapter.ChatAdapter;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.model.Message;
@@ -49,8 +51,9 @@ public class ChatDetailActivity extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseStorage storage;
     TextView tvUName, tvOnline;
-    ImageView backArrow, send, btnAttach;
+    ImageView backArrow, send, btnAttach, btnVideo;
     RecyclerView rvChatDetails;
+    VideoView videoView;
     EditText edtMess;
     CircleImageView circleImageView;
     String senderRoom, receiverRoom;
@@ -67,6 +70,7 @@ public class ChatDetailActivity extends AppCompatActivity {
         edtMess = findViewById(R.id.etMessage);
         circleImageView = findViewById(R.id.profile_image);
         btnAttach = findViewById(R.id.btnAttach);
+        btnVideo = findViewById(R.id.btnVideo);
         rvChatDetails = findViewById(R.id.rvChatDetail);
 
         backArrow.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +124,15 @@ public class ChatDetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 uploadImg.launch(intent);
+            }
+        });
+
+        btnVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                uploadVid.launch(intent);
             }
         });
 
@@ -244,6 +257,63 @@ public class ChatDetailActivity extends AppCompatActivity {
                 }
             }
     );
+
+    private ActivityResultLauncher<Intent> uploadVid = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK){
+                    if(result.getData()!= null){
+                        Uri selectVid = result.getData().getData();
+                        StorageReference reference = storage.getReference().child("chats");
+                        reference.putFile(selectVid).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                if (task.isSuccessful()){
+                                    reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            String filePath = uri.toString();
+                                            String mess = edtMess.getText().toString();
+                                            String randomKey = fDB.getReference().push().getKey();
+                                            final Message mMess =  new Message(senderID, mess);
+//                                            đẩy hình
+                                            mMess.setMessage("video");
+                                            mMess.setImageUrl(filePath);
+                                            mMess.setTimeStamp(new Date().getTime());
+                                            edtMess.setText("");
+                                            fDB.getReference().child("chats")
+                                                    .child(senderRoom)
+                                                    .child(randomKey)
+                                                    .setValue(mMess).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    fDB.getReference().child("chats")
+                                                            .child(receiverRoom)
+                                                            .child(randomKey)
+                                                            .setValue(mMess).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
+
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                            Toast.makeText(ChatDetailActivity.this, filePath, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+                        });
+
+                    }
+                }
+            }
+    );
+
+    private void setVideoToVideoVIew(){
+        MediaController mediaController = new MediaController(this);
+        mediaController.setAnchorView(videoView);
+    }
     @Override
     protected void onResume() {
         super.onResume();

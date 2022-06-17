@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -69,11 +70,54 @@ public class ViewDetailActivity extends AppCompatActivity {
 
             }
         });
-
+        btnDecline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Unfriend(userID);
+            }
+        });
         CheckUserExistane(userID);
 
     }
 
+    private void Unfriend(String userID){
+        if (CurrentState.equals("friend")){
+            friendRef.child(fUser.getUid()).child(userID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()){
+                        friendRef.child(userID).child(fUser.getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()){
+                                    Toast.makeText(ViewDetailActivity.this,"Đã hủy kết bạn", Toast.LENGTH_SHORT).show();
+                                    CurrentState="nothing_happen";
+                                    btnAdd.setText("Kết bạn");
+                                    btnDecline.setVisibility(View.GONE);
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+            if (CurrentState.equals("he_sent_pending")){
+                Map<String, Object> hashMap = new HashMap<>();
+                hashMap.put("status","decline");
+
+                requestRef.child(userID).child(fUser.getUid()).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(ViewDetailActivity.this,"Từ chối lời mời",Toast.LENGTH_SHORT).show();
+                            CurrentState = "he_sent_decline";
+                            btnAdd.setVisibility(View.GONE);
+                            btnDecline.setVisibility(View.GONE);
+                        }
+                    }
+                });
+            }
+        }
+    }
     private void CheckUserExistane(String userID) {
 
 //        đã là bạn bè
@@ -86,6 +130,7 @@ public class ViewDetailActivity extends AppCompatActivity {
                     btnAdd.setText("Gửi tin nhắn");
                     btnDecline.setText("Hủy kết bạn");
                     btnDecline.setVisibility(View.VISIBLE);
+
                 }
 
             }
@@ -104,6 +149,13 @@ public class ViewDetailActivity extends AppCompatActivity {
                     btnAdd.setText("Gửi tin nhắn");
                     btnDecline.setText("Hủy kết bạn");
                     btnDecline.setVisibility(View.VISIBLE);
+                    btnAdd.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(ViewDetailActivity.this, ChatDetailActivity.class);
+                            startActivity(intent);
+                        }
+                    });
                 }
             }
 
@@ -120,6 +172,7 @@ public class ViewDetailActivity extends AppCompatActivity {
                         CurrentState = "I_sent_pending";
                         btnAdd.setText("Hủy lời mời");
                         btnDecline.setVisibility(View.GONE);
+
                     }
                 }
                 if (snapshot.exists()){

@@ -46,6 +46,7 @@ public class FriendRequestFragment extends Fragment {
     RecyclerView rvRequest;
     FirebaseAuth fAuth;
     FirebaseUser fUser;
+    DatabaseReference databaseReference;
     String userID;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -99,6 +100,7 @@ public class FriendRequestFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         rvRequest = view.findViewById(R.id.rvRequests);
         friendRequestAdapter = new FriendRequestAdapter(requestList);
         rvRequest.setAdapter(friendRequestAdapter);
