@@ -29,8 +29,10 @@ public class SearchFriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     DatabaseReference mUserRef;
     FirebaseUser fUser;
     FirebaseAuth fAuth;
-    public SearchFriendAdapter(ArrayList<User> mUser) {
+    ArrayList<User> mUserTmp;
+    public SearchFriendAdapter(ArrayList<User> mUser, ArrayList<User> mUserTmp) {
         this.mUser = mUser;
+        this.mUserTmp = mUserTmp;
     }
     public class ViewHolderFind extends RecyclerView.ViewHolder {
         CircleImageView circleImageView;
@@ -40,6 +42,12 @@ public class SearchFriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             circleImageView = itemView.findViewById(R.id.profile_image);
             tvUser = itemView.findViewById(R.id.tvName);
 
+        }
+        public void filter(String str){
+            mUser.clear();
+            if(str.isEmpty()){
+                mUser.addAll(mUserTmp);
+            }
         }
     }
     @NonNull
