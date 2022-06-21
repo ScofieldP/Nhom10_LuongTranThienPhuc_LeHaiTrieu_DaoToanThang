@@ -49,7 +49,7 @@ public class SearchFriendActivity extends AppCompatActivity {
         rvFindFriend = findViewById(R.id.rvFindFriend);
         toolbar = findViewById(R.id.toolbarSearch);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Tìm kiếm bạn bè");
+        toolbar.setTitle("Tìm kiếm bạn bè");
 
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +67,34 @@ public class SearchFriendActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rvFindFriend.setLayoutManager(layoutManager);
 
-        fDB.getReference().child("users").addValueEventListener(new ValueEventListener() {
+
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.search_friend);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                Search(s);
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+
+
+    }
+    private void Search(String s){
+        fDB.getReference().child("users").orderByChild("username").startAt(s).endAt(s+"\uf8ff").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 friendList = new ArrayList<>();
@@ -86,52 +113,5 @@ public class SearchFriendActivity extends AppCompatActivity {
 
             }
         });
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String s) {
-//                Search(s);
-//                return true;
-//            }
-//        });
-    }
-//    private void Search(String s){
-//        ArrayList<User> filterList = new ArrayList<>();
-//        for (User user : friendList){
-//            if (user.getUsername().toLowerCase().contains(s.toLowerCase())){
-//                filterList.add(user);
-//            }
-//
-//
-//        }
-//        if (filterList.isEmpty()){
-//            Toast.makeText(this, "Khong co du lieu", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_menu, menu);
-        MenuItem menuItem = menu.findItem(R.id.search_friend);
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
-
-
     }
 }
