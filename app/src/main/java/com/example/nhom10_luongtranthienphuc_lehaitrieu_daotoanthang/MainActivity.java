@@ -12,12 +12,10 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.fragment.FriendFragment;
-import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.fragment.FriendRequestFragment;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.fragment.MessageFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -39,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbarSearch);
         imgProfile = findViewById(R.id.imgProfile);
         displayUserProfile();
         imgProfile.setOnClickListener(new View.OnClickListener() {

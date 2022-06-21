@@ -49,10 +49,10 @@
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_intro.xml" value="0.1" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_log_out.xml" value="0.5796089385474861" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_login.xml" value="0.265625" />
-        <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_main.xml" value="0.13425925925925927" />
+        <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_profile.xml" value="0.265625" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_register.xml" value="0.265625" />
-        <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_search_friend.xml" value="0.264" />
+        <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_search_friend.xml" value="0.30647709320695105" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/activity_view_detail.xml" value="0.26145833333333335" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/fragment_change_profile_name.xml" value="0.265625" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/fragment_friend.xml" value="0.1" />
@@ -66,6 +66,7 @@
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/layout/layout_user.xml" value="0.19270833333333334" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/menu/main_menu.xml" value="0.19270833333333334" />
         <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/menu/search_friend.xml" value="0.5691318327974276" />
+        <entry key="..\:/Nhom10_LuongTranThienPhuc_LeHaiTrieu_DaoToanThang/app/src/main/res/menu/search_menu.xml" value="0.265625" />
       </map>
     </option>
   </component>

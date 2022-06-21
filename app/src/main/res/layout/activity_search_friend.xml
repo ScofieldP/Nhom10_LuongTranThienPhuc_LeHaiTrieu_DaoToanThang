@@ -6,67 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".SearchFriendActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarSearch"
+    <FrameLayout
+        android:id="@+id/frameLayout3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/purple_700"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary1"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:contentInsetLeft="80dp"
+            app:contentInsetStart="80dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/back_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+            android:layout_margin="16dp"
             android:src="@drawable/ic_baseline_arrow_left_24" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:text="Tìm kiếm bạn bè"
-            android:textColor="@color/white"
-            android:textSize="20dp" />
-    </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
-        android:id="@+id/linearLayout5"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:background="@color/purple_700"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarSearch">
-
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_input"
-            android:drawableLeft="@drawable/ic_baseline_search_24"
-            android:hint="Tìm kiếm bạn bè"
-            android:padding="18dp" />
-    </LinearLayout>
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/frameLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="455dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout3">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvFindFriend"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             tools:listitem="@layout/layout_friend" />
 
     </FrameLayout>
