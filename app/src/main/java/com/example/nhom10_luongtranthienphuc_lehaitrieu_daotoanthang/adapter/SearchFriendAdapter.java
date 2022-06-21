@@ -9,11 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.ChatDetailActivity;
-import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.DetailFriendActivity;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.R;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.ViewDetailActivity;
 import com.example.nhom10_luongtranthienphuc_lehaitrieu_daotoanthang.model.User;

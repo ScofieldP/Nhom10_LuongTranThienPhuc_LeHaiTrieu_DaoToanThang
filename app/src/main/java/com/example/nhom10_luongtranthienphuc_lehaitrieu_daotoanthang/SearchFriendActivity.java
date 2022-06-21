@@ -49,7 +49,7 @@ public class SearchFriendActivity extends AppCompatActivity {
         rvFindFriend = findViewById(R.id.rvFindFriend);
         toolbar = findViewById(R.id.toolbarSearch);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Tìm kiếm bạn bè");
+        getSupportActionBar().setTitle("Tìm kiếm bạn bè");
 
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override

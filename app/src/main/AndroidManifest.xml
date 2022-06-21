@@ -16,9 +16,6 @@
             android:name=".ViewDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".DetailFriendActivity"
-            android:exported="true" />
-        <activity
             android:name=".SearchFriendActivity"
             android:exported="false" />
         <activity
