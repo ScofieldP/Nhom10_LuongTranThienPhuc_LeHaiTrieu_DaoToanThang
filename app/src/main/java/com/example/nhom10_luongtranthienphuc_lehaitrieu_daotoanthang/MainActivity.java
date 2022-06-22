@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Tin nhắn");
         display(R.id.mnuMess);
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {

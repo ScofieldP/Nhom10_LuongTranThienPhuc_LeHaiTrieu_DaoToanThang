@@ -79,44 +79,6 @@ public class ChatAdapter extends RecyclerView.Adapter{
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Message message = mMessage.get(position);
 
-//        int [] reaction = new int[]{
-//                R.drawable.ic_fb_like,
-//                R.drawable.ic_fb_love,
-//                R.drawable.ic_fb_laugh,
-//                R.drawable.ic_fb_wow,
-//                R.drawable.ic_fb_sad,
-//                R.drawable.ic_fb_angry
-//        };
-//        ReactionsConfig config = new ReactionsConfigBuilder(context)
-//                .withReactions(reaction)
-//                .build();
-//
-//        ReactionPopup popup = new ReactionPopup(context, config, (pos) -> {
-//            if (holder.getClass() == SenderViewHolder.class){
-//                ((SenderViewHolder)holder).reactFeeling.setImageResource(reaction[pos]);
-//                ((SenderViewHolder)holder).reactFeeling.setVisibility(View.VISIBLE);
-//
-//
-//            }
-//            else {
-//                ((ReceiverViewHolder)holder).reactFeeling.setImageResource(reaction[pos]);
-//                ((ReceiverViewHolder)holder).reactFeeling.setVisibility(View.VISIBLE);
-//
-//            }
-//            message.setFeeling(pos);
-//            FirebaseDatabase.getInstance().getReference()
-//                    .child("chats")
-//                    .child(senderRoom)
-//                    .child(message.getMessageID())
-//                    .setValue(message);
-//
-//            FirebaseDatabase.getInstance().getReference()
-//                    .child("chats")
-//                    .child(receiverRoom)
-//                    .child(message.getMessageID())
-//                    .setValue(message);
-//            return true; // true is closing popup, false is requesting a new selection
-//        });
 
 
 
@@ -132,35 +94,7 @@ public class ChatAdapter extends RecyclerView.Adapter{
                 Glide.with(context).load(message.getImageUrl()).into( ((SenderViewHolder)holder).sentImg);
             }
 
-            if (message.getMessage().equals("video")){
-                ((SenderViewHolder)holder).sentImg.setVisibility(View.VISIBLE);
-                ((SenderViewHolder)holder).senderMsg.setVisibility(View.GONE);
-                Glide.with(context).load(message.getImageUrl()).into( ((SenderViewHolder)holder).sentImg);
-            }
 
-//            if (message.getFeeling() >= 0){
-//                message.setFeeling(reaction[(int ) message.getFeeling()]);
-////                ((SenderViewHolder)holder).reactFeeling.setImageResource(reaction[(int ) message.getFeeling()]);
-//                ((SenderViewHolder)holder).reactFeeling.setVisibility(View.VISIBLE);
-//            }
-//            else {
-//                ((SenderViewHolder)holder).reactFeeling.setVisibility(View.GONE);
-//            }
-
-//            ((SenderViewHolder)holder).senderMsg.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View view, MotionEvent motionEvent) {
-//                    popup.onTouch(view, motionEvent);
-//                    return false;
-//                }
-//            });
-//            ((SenderViewHolder)holder).sentImg.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View view, MotionEvent motionEvent) {
-//                    popup.onTouch(view, motionEvent);
-//                    return false;
-//                }
-//            });
         }
         else {
             ((ReceiverViewHolder)holder).receiverMsg.setText(message.getMessage());
@@ -169,33 +103,7 @@ public class ChatAdapter extends RecyclerView.Adapter{
                 ((ReceiverViewHolder)holder).receiverMsg.setVisibility(View.GONE);
                 Glide.with(context).load(message.getImageUrl()).into( ((ReceiverViewHolder)holder).receiImg);
             }
-            if (message.getMessage().equals("video")){
-                ((ReceiverViewHolder)holder).receiImg.setVisibility(View.VISIBLE);
-                ((ReceiverViewHolder)holder).receiverMsg.setVisibility(View.GONE);
-                Glide.with(context).load(message.getImageUrl()).into( ((ReceiverViewHolder)holder).receiImg);
-            }
-//            if (message.getFeeling() >= 0){
-//                message.setFeeling(reaction[(int ) message.getFeeling()]);
-////                ((ReceiverViewHolder)holder).reactFeeling.setImageResource(reaction[(int ) message.getFeeling()]);
-//                ((ReceiverViewHolder)holder).reactFeeling.setVisibility(View.VISIBLE);
-//            }
-//            else {
-//                ((ReceiverViewHolder)holder).reactFeeling.setVisibility(View.GONE);
-//            }
-//            ((ReceiverViewHolder)holder).receiverMsg.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View view, MotionEvent motionEvent) {
-//                    popup.onTouch(view, motionEvent);
-//                    return false;
-//                }
-//            });
-//            ((ReceiverViewHolder)holder).receiImg.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View view, MotionEvent motionEvent) {
-//                    popup.onTouch(view, motionEvent);
-//                    return false;
-//                }
-//            });
+
             ((ReceiverViewHolder)holder).circleImageView.setImageBitmap(receiverImg);
             ((ReceiverViewHolder)holder).receiverTime.setText(getDateFromTimeStamp(message.getTimeStamp()));
         }
