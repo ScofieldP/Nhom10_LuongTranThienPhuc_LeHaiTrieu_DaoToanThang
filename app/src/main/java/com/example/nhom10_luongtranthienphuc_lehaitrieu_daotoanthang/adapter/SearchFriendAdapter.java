@@ -6,8 +6,9 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.TextView;
-
+import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,16 +25,21 @@ import java.util.Base64;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SearchFriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class SearchFriendAdapter extends RecyclerView.Adapter<SearchFriendAdapter.ViewHolderFind> implements Filerable{
     ArrayList<User> mUser;
     DatabaseReference mUserRef;
     FirebaseUser fUser;
     FirebaseAuth fAuth;
+
     ArrayList<User> mUserTmp;
-    public SearchFriendAdapter(ArrayList<User> mUser, ArrayList<User> mUserTmp) {
+
+    public SearchFriendAdapter(ArrayList<User> mUser) {
         this.mUser = mUser;
-        this.mUserTmp = mUserTmp;
+        this.mUserTmp = new ArrayList<>(mUser);
     }
+
+
+
     public class ViewHolderFind extends RecyclerView.ViewHolder {
         CircleImageView circleImageView;
         TextView tvUser;
@@ -43,49 +49,81 @@ public class SearchFriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             tvUser = itemView.findViewById(R.id.tvName);
 
         }
-        public void filter(String str){
-            mUser.clear();
-            if(str.isEmpty()){
-                mUser.addAll(mUserTmp);
-            }
-        }
     }
+
+    //Xu li thang Search
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            ArrayList<User> filteredList = new ArrayList<>();
+            if(charSequence.toString().isEmpty()){
+                filteredList.addAll(mUserTmp);
+            } else{
+                //khai bao String filterPattern la de tham chieu thang String new text ben activity qua
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+                for(User x:mUserTmp){
+                    if(x.getUsername().toLowerCase().contains(filterPattern)){
+                        filteredList.add(x);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            mUser.clear();
+            mUser.addAll((ArrayList) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
+
+
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolderFind onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view  = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_friend,parent,false);
         return new ViewHolderFind(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolderFind holder, int position) {
         User user = mUser.get(position);
+        holder.tvUser.setText(user.getUsername());
+        holder.circleImageView.setImageBitmap(getUserImage(user.getImage()));
+
         fAuth = FirebaseAuth.getInstance();
         fUser = FirebaseAuth.getInstance().getCurrentUser();
         mUserRef = FirebaseDatabase.getInstance().getReference();
-        ViewHolderFind viewHolderFind = (ViewHolderFind) holder;
         if (!fUser.getUid().equals(user.getUserID())){
-            viewHolderFind.tvUser.setText(user.getUsername());
-            viewHolderFind.circleImageView.setImageBitmap(getUserImage(user.image));
+            holder.tvUser.setText(user.getUsername());
+            holder.circleImageView.setImageBitmap(getUserImage(user.image));
         }
         else {
-            viewHolderFind.itemView.setVisibility(View.GONE);
-            viewHolderFind.itemView.setLayoutParams(new RecyclerView.LayoutParams(0,0));
+            holder.itemView.setVisibility(View.GONE);
+            holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0,0));
         }
 
 
 
-        viewHolderFind.itemView.setOnClickListener(new View.OnClickListener() {
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                Truyền dữ liệu qua viewdetail
-                Intent intent = new Intent(viewHolderFind.itemView.getContext(), ViewDetailActivity.class);
+                Intent intent = new Intent(holder.itemView.getContext(), ViewDetailActivity.class);
                 intent.putExtra("userID", user.getUserID());
 //                intent.putExtra("username", user.getUsername());
 //                intent.putExtra("img_profile", user.getImage());
 
-                viewHolderFind.itemView.getContext().startActivity(intent);
+                holder.itemView.getContext().startActivity(intent);
             }
         });
     }
@@ -103,3 +141,4 @@ public class SearchFriendAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 }
+
